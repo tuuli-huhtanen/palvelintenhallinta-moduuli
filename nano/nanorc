@@ -1,0 +1,6 @@
+set linenumbers
+set softwrap
+set historylog
+set locking
+set suspend
+include "/usr/share/nano/*.nanorc"
