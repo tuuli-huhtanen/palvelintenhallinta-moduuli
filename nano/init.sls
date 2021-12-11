@@ -1,3 +1,5 @@
 /etc/nanorc:
-  file.managed:
-    - source: salt://nano/nanorc
+  file.append:
+    - text:
+      - set linenumbers
+      - set softwrap
