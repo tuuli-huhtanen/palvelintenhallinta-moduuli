@@ -39,9 +39,91 @@ Tämä on moduuli, jota on tarkoitus käyttää alustamaan Ubuntu 20.04 LTS käy
 
 ## Ohjeet käyttöönottoon
 
-Päivitä ja asenna Salt-minion Debian:
+Päivitä ja tuo Salt-master Debianille: 
+
+```
+$ sudo apt-get update
+$ sudo apt-get -y install salt-master
+```
+
+Päivitä ja asenna Salt-minion Debianille: (jokoa sama tai eri kone)
+
+```
+$ sudo apt-get update
+$ sudo apt-get -y install salt-minion
+$ sudoedit /etc/salt/minion
+
+```
+
+Muokkaa tiedostoon:
+
+```
+master: #master-koneen IP-osoite
+id: #minionin id, joka näkyy masterilla, esim. debian-minion
+```
+
+Käynnistä daemoni uudelleen:
+
+```
+$ sudo systemctl restart salt-minon.service
+```
 
 Päivitä ja asenna Salt-minion Ubuntu:
+
+```
+$ sudo apt-get update
+$ sudo apt-get install curl 
+$ sudo curl -fsSL -o /usr/share/keyrings/salt-archive-keyring.gpg https://repo.saltproject.io/py3/ubuntu/20.04/arm64/latest/salt-archive-keyring.gpg
+$ echo "deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=arm64] https://repo.saltproject.io/py3/ubuntu/20.04/arm64/latest focal main" | sudo tee /etc/apt/sources.list.d/salt.list
+deb [signed-by=/usr/share/keyrings/salt-archive-keyring.gpg arch=arm64] https://repo.saltproject.io/py3/ubuntu/20.04/arm64/latest focal main
+$ sudo apt-get install salt-minion
+$ sudoedit /etc/salt/minion
+```
+
+Muokkaa tiedostoon:
+
+```
+master: #master-koneen IP-osoite
+id: #minionin id, joka näkyy masterilla, esim. ubuntu-minion
+```
+
+Käynnistä daemoni uudelleen:
+
+```
+$ sudo systemctl restart salt-minon.service
+```
+
+Masterilla hyväksy avaimet:
+
+```
+$ sudo salt-key -A
+```
+
+Kloonaa repositorio masterille:
+
+```
+git clone https://github.com/tuuli-huhtanen/palvelintenhallinta-moduuli.git
+```
+
+Luo hakemisto:
+
+```
+$ sudo mkdir -p /srv/salt
+```
+
+Ja vie sinne kloonatusta repositoriosta moduulit ja `top.sls` niin, että rakenne näyttää näyttää samalta kuin kohdassa "Moduulin sisältö".
+
+Voit ajaa joko yksittäisen moduulin osan tietylle minionille seuraavasti:
+
+```
+$ sudo salt 'ubuntu-minion' state.apply ufw
+```
+
+Tai koko moduulin kaikille minioneille:
+
+```
+$ sudo salt '*' state.apply
+```
 
 ## Testausympäristö
 
@@ -54,6 +136,8 @@ Päivitä ja asenna Salt-minion Ubuntu:
 Testiraportin ja kuvat lopputuloksesta löydät: [tuuli-huhtanen / palvelintenhallinta / h7-omamoduuli.md / 12.12.2021 Testit ja lopputulos](https://github.com/tuuli-huhtanen/palvelintenhallinta/blob/main/h7-omamoduuli.md#viides)
 
 ## Päivitysinfo
+
+13.12.2021 Lisätty ohjeet käyttöönottoon ja projekti palautettu opettajalle.
 
 12.12.2021 Lisätty top.sls. Lisätty linkki testeihin ja kuviin lopputuloksesta. Kehitettävää: Firefoxin tracking off - ei toimi. Lisätty lähteet ja testiympäristö.
 
