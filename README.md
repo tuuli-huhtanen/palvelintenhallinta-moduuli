@@ -25,10 +25,11 @@ Tämä on moduuli, jota on tarkoitus käyttää alustamaan Ubuntu 20.04 LTS käy
 ├── ssh
 │   ├── init.sls
 │   └── sshd_config
+├── top.sls
 └── ufw
     └── init.sls
 
-5 directories, 8 files
+5 directories, 9 files
 ```
 
 * firefox: salasanojen ehdottaminen ja generointi pois, kirjamerkkipalkista pois "Import bookmarks...", kotisivu [DuckDuckGo](https://duckduckgo.com), uusi välilehti tyhjä. 
